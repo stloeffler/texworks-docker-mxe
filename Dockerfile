@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 LABEL maintainer="Stefan Löffler <st.loeffler@gmail.com>" \
       org.label-schema.schema-version="1.0" \
@@ -16,6 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends autoconf automa
     wget -O- https://github.com/mxe/mxe/archive/2ce5587c94fc355b2c826c786a3ee018479d88d1.tar.gz | tar -xz --strip-components=1 && echo 'MXE_TARGETS := i686-w64-mingw32.static' > settings.mk && \
     make -j cairo curl freetype gettext glib hunspell jpeg lcms libiconv libpng lua pthreads qtscript qttools readline tiff zlib && \
     make clean-junk && \
-    apt-get remove autoconf automake autopoint bash bison bzip2 flex g++ g++-multilib gettext git gperf intltool libc6-dev-i386 libgdk-pixbuf2.0-dev libltdl-dev libssl-dev libtool-bin libxml-parser-perl lzip make openssl p7zip-full patch perl pkg-config python ruby sed unzip wget xz-utils
+    apt-get -y remove autoconf automake autopoint bash bison bzip2 flex g++ g++-multilib gettext git gperf intltool libc6-dev-i386 libgdk-pixbuf2.0-dev libltdl-dev libssl-dev libtool-bin libxml-parser-perl lzip make openssl p7zip-full patch perl pkg-config python ruby sed unzip wget xz-utils
     
 
