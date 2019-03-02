@@ -1,0 +1,22 @@
+FROM ubuntu:xenial AS mxe-base
+
+LABEL maintainer="Stefan Löffler <st.loeffler@gmail.com>" \
+      org.label-schema.schema-version="1.0" \
+      org.label-schema.build-date="2019-03-02T14:47:28+11:00" \
+      org.label-schema.description="Base image of a MXE build" \
+      org.label-schema.url="http://mxe.cc/" \
+      org.label-schema.vcs-url="https://github.com/mxe/mxe" \
+      org.label-schema.vcs-ref="b19caac46988196a5799540f7998fc7eeaec139a" \
+      mxe.pkg_versions="binutils (2.28), gcc (5.5.0), gmp (6.1.2), isl (0.15), libtool (2.4.4), mingw-w64 (6.0.0), mpc (1.1.0), mpfr (3.1.5), mxe-conf (1), pkgconf (da179fd)"
+
+# Set working directory
+WORKDIR /opt/mxe
+
+RUN apt-get update && apt-get install -y --no-install-recommends autoconf automake autopoint bison bzip2 flex g++ g++-multilib gettext git gperf intltool libc6-dev-i386 libgdk-pixbuf2.0-dev libltdl-dev libssl-dev libtool-bin libxml-parser-perl lzip make openssl p7zip-full patch perl pkg-config python ruby unzip wget xz-utils && \
+    wget -O- https://github.com/mxe/mxe/archive/b19caac46988196a5799540f7998fc7eeaec139a.tar.gz | tar -xz --strip-components=1 && echo 'MXE_TARGETS := i686-w64-mingw32.static' > settings.mk && \
+    make -j cc && \
+    make clean-junk && \
+    rm -rf pkg && \
+    apt-get -y remove autoconf automake autopoint bison bzip2 flex g++ g++-multilib gettext git gperf intltool libc6-dev-i386 libgdk-pixbuf2.0-dev libltdl-dev libssl-dev libtool-bin libxml-parser-perl lzip make openssl p7zip-full patch perl pkg-config python ruby unzip wget xz-utils
+
+
